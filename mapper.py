@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 from datetime import datetime
 
@@ -7,7 +8,12 @@ for line in sys.stdin:
 
     line = line.strip()
 
-    data = line.split(',')
+    try:
+        data = line.split(',')
+    except ValueError:
+        # count was not a number, so silently
+        # ignore/discard this line
+        continue
 
     if not ( data[0] == 'ip' or data[1] == 'date' or data[2] == 'time' ):
         IP = data[0]
@@ -19,3 +25,5 @@ for line in sys.stdin:
 
         value = timestamp - timestamp % 60
         print('%s\t%s' % (IP, value))
+
+
